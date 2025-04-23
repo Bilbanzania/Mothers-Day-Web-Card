@@ -1,0 +1,154 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #ffe6f0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    position: relative;
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 2.5rem;
+    color: #d63384;
+    font-family: 'Dancing Script', cursive;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.6s ease;
+    z-index: 11;
+}
+
+#character {
+    position: relative;
+    top: 0;
+    left: -100%;
+    max-height: 80vh;
+    width: auto;
+    max-width: 90vw;
+    height: auto;
+    z-index: 10;
+    border-radius: 2rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Heart Styles */
+.heart-container {
+    position: absolute;
+    animation: floatUp 3s ease-out forwards;
+    z-index: 9;
+}
+
+.heart {
+    position: relative;
+    background-color: #ff69b4;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    opacity: 0.9;
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    background-color: inherit;
+    border-radius: 50%;
+    width: inherit;
+    height: inherit;
+}
+
+.heart::before {
+    top: -50%;
+    left: 0;
+}
+
+.heart::after {
+    top: 0;
+    left: -50%;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-200px);
+    }
+}
+
+/* Cloud Styles */
+.cloud {
+    position: absolute;
+    width: 200px;
+    height: 100px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: drift 60s linear infinite;
+    z-index: 1;
+}
+
+@keyframes drift {
+    0% {
+        left: -300px;
+    }
+
+    100% {
+        left: 110%;
+    }
+}
+
+/* Petal Styles */
+.petal {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: pink;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(45deg);
+    animation: fall 6s linear infinite;
+    z-index: 2;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(300px) rotate(90deg);
+    }
+
+    100% {
+        transform: translateY(600px) rotate(180deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        justify-content: flex-start;
+        padding-top: 2rem;
+    }
+
+    #message {
+        font-size: 1.8rem;
+        text-align: center;
+        padding: 0 1rem;
+    }
+
+    #character {
+        width: 90vw;
+        max-height: 70vh;
+        height: auto;
+    }
+}
