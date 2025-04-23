@@ -21,6 +21,7 @@ body {
     transform: scale(0.8);
     transition: all 0.6s ease;
     z-index: 11;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 
 #character {
@@ -50,6 +51,7 @@ body {
     height: 20px;
     transform: rotate(45deg);
     opacity: 0.9;
+    filter: drop-shadow(0 0 5px #ff85c1);
 }
 
 .heart::before,
@@ -89,16 +91,54 @@ body {
     position: absolute;
     width: 200px;
     height: 100px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.3;
-    animation: drift 60s linear infinite;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.5;
     z-index: 1;
 }
 
-@keyframes drift {
+.cloud1 {
+    animation: drift1 90s linear infinite;
+    top: 10%;
+    transform: scale(1);
+}
+
+.cloud2 {
+    animation: drift2 120s linear infinite;
+    top: 25%;
+    transform: scale(0.9);
+}
+
+.cloud3 {
+    animation: drift3 150s linear infinite;
+    top: 40%;
+    transform: scale(1.1);
+}
+
+@keyframes drift1 {
+    0% {
+        left: -250px;
+    }
+
+    100% {
+        left: 110%;
+    }
+}
+
+@keyframes drift2 {
     0% {
         left: -300px;
+    }
+
+    100% {
+        left: 110%;
+    }
+}
+
+@keyframes drift3 {
+    0% {
+        left: -200px;
     }
 
     100% {
@@ -116,19 +156,57 @@ body {
     transform: rotate(45deg);
     animation: fall 6s linear infinite;
     z-index: 2;
+    filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.7));
 }
 
 @keyframes fall {
     0% {
-        transform: translateY(0) rotate(0deg);
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(-10px, 150px) rotate(90deg);
     }
 
     50% {
-        transform: translateY(300px) rotate(90deg);
+        transform: translate(10px, 300px) rotate(180deg);
+    }
+
+    75% {
+        transform: translate(-5px, 450px) rotate(270deg);
     }
 
     100% {
-        transform: translateY(600px) rotate(180deg);
+        transform: translate(0, 600px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.dust {
+    position: absolute;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 182, 193, 0.3) 60%, transparent 100%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    opacity: 0.8;
+    z-index: 5;
+    animation: dustTrail 0.8s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes dustTrail {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 0.4;
+    }
+
+    100% {
+        transform: scale(2.2);
         opacity: 0;
     }
 }
