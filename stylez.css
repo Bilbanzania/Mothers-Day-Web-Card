@@ -2,7 +2,9 @@
 body {
     margin: 0;
     padding: 0;
-    background: #ffe6f0;
+    background: linear-gradient(120deg, #ffe6f0, #f0e6ff, #fff0f5, #ffe6f0);
+    background-size: 800% 800%;
+    animation: bgShift 40s ease infinite;
     font-family: 'Dancing Script', cursive;
     overflow: hidden;
     display: flex;
@@ -11,6 +13,29 @@ body {
     height: 100vh;
     flex-direction: column;
     position: relative;
+}
+
+/* 🌈 Background Gradient Animation */
+@keyframes bgShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    25% {
+        background-position: 50% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    75% {
+        background-position: 50% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 #tapOverlay {
@@ -93,7 +118,22 @@ body {
     height: auto;
     z-index: 3;
     border-radius: 2rem;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    box-shadow:
+        0 8px 16px rgba(0, 0, 0, 0.15),
+        0 0 20px rgba(255, 192, 203, 0.3),
+        0 0 40px rgba(255, 182, 193, 0.25),
+        0 0 60px rgba(255, 240, 245, 0.3);
+    animation: floatCharacter 6s ease-in-out infinite;
+}
+
+@keyframes floatCharacter {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 /* 💖 Animated Hearts */
@@ -520,21 +560,102 @@ body {
     body {
         justify-content: flex-start;
         padding-top: 2rem;
+        font-size: 16px;
+        overflow-x: hidden;
+        touch-action: manipulation;
+    }
+
+    #tapOverlay {
+        font-size: 1.6rem;
+        padding: 1.2rem 1.5rem;
     }
 
     #message {
-        font-size: 1.8rem;
+        font-size: clamp(1.6rem, 6vw, 2rem);
         text-align: center;
-        padding: 0 1rem;
+        padding: 0 1.2rem;
     }
 
     #character {
         width: 90vw;
-        max-height: 70vh;
+        max-height: 65vh;
         height: auto;
+        margin-bottom: 1rem;
     }
 
     .compliment {
         bottom: 10vh !important;
+        font-size: 1.2rem;
+        padding: 0 1rem;
+        text-align: center;
+    }
+
+    .sparkle {
+        width: 10px;
+        height: 10px;
+    }
+
+    /* Lighter animation load on mobile */
+    .cloud, .petal, .lantern, .wind-petal, .heart-container {
+        animation-duration: 0.85x;
+        animation-timing-function: ease-in-out;
+    }
+
+    #cloudLayer,
+    #petalLayer,
+    #heartLayer,
+    #dustLayer {
+        overflow: hidden;
+        overscroll-behavior: contain;
+    }
+}
+
+/* 📱📱 Ultra-Small Screens (like iPhone SE or older Androids) */
+@media (max-width: 480px) {
+    body {
+        padding-top: 1rem;
+        font-size: 14px;
+    }
+
+    #tapOverlay {
+        font-size: 1.4rem;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    #message {
+        font-size: clamp(1.4rem, 5.5vw, 1.6rem);
+        padding: 0 0.8rem;
+    }
+
+    #character {
+        width: 95vw;
+        max-height: 60vh;
+    }
+
+    .compliment {
+        font-size: 1rem;
+        bottom: 8vh !important;
+        padding: 0 0.5rem;
+    }
+
+    .sparkle {
+        width: 8px;
+        height: 8px;
+    }
+
+    .heart {
+        width: 14px !important;
+        height: 14px !important;
+    }
+
+    .lantern {
+        width: 28px;
+        height: 40px;
+    }
+
+    .petal,
+    .wind-petal {
+        transform: scale(0.8);
     }
 }

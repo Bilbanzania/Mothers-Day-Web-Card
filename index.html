@@ -9,8 +9,10 @@
     <link rel="icon" href="media/heart.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
     <link rel="preload" as="image" href="media/chibi_mdp.png">
+    <link rel="preload" as="audio" href="media/background.mp3">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="stylez.css">
+    <script src="app.js" defer></script>
 </head>
 
 <body>
@@ -22,19 +24,17 @@
 
     <!-- Main Content -->
     <main id="card-content">
-        <img id="character" src="media/chibi_mdp.png" alt="Chibi-style illustration of you"
-            aria-label="Decorative chibi-style character">
+        <img id="character" src="media/chibi_mdp.png" alt="Chibi-style illustration of you" role="img">
         <div id="message">Happy Mother's Day!</div>
     </main>
 
+    <!-- Audio -->
     <audio id="bgm" src="media/background.mp3" preload="auto" loop></audio>
 
     <!-- Tap to Begin Overlay -->
     <div id="tapOverlay">
-        <p>Tap to Begin 💖</p>
+        <p role="alert">Tap to Begin 💖</p>
     </div>
-
-    <script src="app.js"></script>
 </body>
 
 </html>

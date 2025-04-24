@@ -13,16 +13,38 @@ $(document).ready(function () {
         "Kindness shines 💖"
     ];
 
-    // --- Sparkles and Click Ripple Effects ---
+    // --- Cached Layers ---
+    const $sparkleLayer = $('#sparkleLayer');
+    const $petalLayer = $('#petalLayer');
+    const $character = $('#character');
+    const $dustLayer = $('#dustLayer');
+
+    // --- Throttled Mouse Sparkles + Parallax ---
+    let lastMove = 0;
     $(document).on('mousemove', function (e) {
+        const now = Date.now();
+        if (now - lastMove < 16) return; // ~60fps
+        lastMove = now;
+
         const sparkle = $('<div class="sparkle sparkle-animated"></div>').css({
             left: e.pageX - 5 + 'px',
             top: e.pageY - 5 + 'px'
         });
-        $('#sparkleLayer').append(sparkle);
+        $sparkleLayer.append(sparkle);
+        if ($sparkleLayer.children().length > 100) {
+            $sparkleLayer.children().slice(0, 20).remove();
+        }
         setTimeout(() => sparkle.remove(), 600);
+
+        const x = (e.clientX / window.innerWidth - 0.5) * 30;
+        const y = (e.clientY / window.innerHeight - 0.5) * 10;
+        $('.cloud').each(function (i) {
+            const depth = (i % 3) + 1;
+            $(this).css('transform', `translate(${x / depth}px, ${y / depth}px)`);
+        });
     });
 
+    // --- Click Ripple ---
     $(document).on('click', function (e) {
         const ripple = $('<div class="ripple"></div>').css({
             left: e.pageX - 25 + 'px',
@@ -67,7 +89,7 @@ $(document).ready(function () {
             animationDuration: (Math.random() * 3 + 4) + 's',
             opacity: Math.random() * 0.5 + 0.5
         });
-        $('#petalLayer').append(petal);
+        $petalLayer.append(petal);
     }
 
     // --- Wind Gusts ---
@@ -77,7 +99,7 @@ $(document).ready(function () {
             left: `${-Math.random() * 100}vw`,
             animationDelay: `${Math.random() * 10}s`
         });
-        $('#petalLayer').append(gust);
+        $petalLayer.append(gust);
     }
 
     // --- Lanterns ---
@@ -87,7 +109,7 @@ $(document).ready(function () {
             bottom: '-60px',
             animationDelay: `${Math.random() * 10}s`
         });
-        $('#petalLayer').append(lantern);
+        $petalLayer.append(lantern);
     }
 
     // --- Floating Compliments ---
@@ -105,27 +127,27 @@ $(document).ready(function () {
             animationDuration: floatDuration
         });
 
-        $('#petalLayer').append(comp);
+        $petalLayer.append(comp);
         setTimeout(() => comp.remove(), parseFloat(floatDuration) * 1000);
     }, 4000);
 
     // --- Character Animation + Hearts & Dust Trail ---
-    $('#character').animate({ left: '0%' }, 1000, 'swing', function () {
+    $character.animate({ left: '0%' }, 1000, 'swing', function () {
         // Dust trail
         let trailInterval = setInterval(() => {
-            const offset = $('#character').offset();
+            const offset = $character.offset();
             const trail = $('<div class="dust"></div>').css({
                 left: offset.left + Math.random() * 30 - 15 + 'px',
-                top: offset.top + $('#character').height() - 40 + Math.random() * 20 + 'px'
+                top: offset.top + $character.height() - 40 + Math.random() * 20 + 'px'
             });
-            $('#dustLayer').append(trail);
+            $dustLayer.append(trail);
             setTimeout(() => trail.remove(), 1000);
         }, 80);
 
         setTimeout(() => clearInterval(trailInterval), 1000);
 
         // Bounce
-        $('#character').animate({ top: '-10px' }, 150)
+        $character.animate({ top: '-10px' }, 150)
             .animate({ top: '0px' }, 200);
 
         // Show message
@@ -162,20 +184,8 @@ $(document).ready(function () {
             });
 
             heartContainer.append(heart);
-            $('#petalLayer').append(heartContainer);
+            $petalLayer.append(heartContainer);
             setTimeout(() => heartContainer.remove(), duration * 1000);
         }
-    });
-
-    // --- Mouse Parallax for Clouds ---
-    $(document).on('mousemove', function (e) {
-        const x = (e.clientX / window.innerWidth - 0.5) * 30;
-        const y = (e.clientY / window.innerHeight - 0.5) * 10;
-        $('.cloud').each(function (i) {
-            const depth = (i % 3) + 1;
-            const moveX = x / depth;
-            const moveY = y / depth;
-            $(this).css('transform', `translate(${moveX}px, ${moveY}px)`);
-        });
     });
 });
