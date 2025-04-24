@@ -63,7 +63,7 @@ body {
     width: auto;
     max-width: 90vw;
     height: auto;
-    z-index: 11;
+    z-index: 5;
     border-radius: 2rem;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
@@ -121,31 +121,27 @@ body {
 /* Cloud Styles */
 .cloud {
     position: absolute;
-    background: radial-gradient(circle at center, #fff0f5 0%, #ffe6f0 70%, transparent 100%);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     border-radius: 50%;
-    opacity: 0.7;
-    box-shadow: 0 0 20px rgba(255, 192, 203, 0.5);
-    filter: blur(1.5px);
-    z-index: 2;
+    opacity: 0.8;
+    filter: blur(2px);
+    background: radial-gradient(circle at 30% 30%, #ffffff 20%, #fff0f5 70%, transparent 100%);
+    z-index: 6;
 }
 
 .cloud.small {
-    width: 120px;
+    width: 100px;
     height: 60px;
     animation: driftSmall 60s linear infinite;
 }
 
 .cloud.medium {
-    width: 180px;
+    width: 160px;
     height: 90px;
     animation: driftMedium 90s linear infinite;
 }
 
 .cloud.large {
-    width: 240px;
+    width: 220px;
     height: 120px;
     animation: driftLarge 120s linear infinite;
 }
@@ -189,7 +185,7 @@ body {
     border-radius: 50% 50% 50% 0;
     transform: rotate(45deg);
     animation: fall 6s linear infinite;
-    z-index: 3;
+    z-index: 8;
     filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.7));
     will-change: transform, opacity;
 }
@@ -224,7 +220,7 @@ body {
     height: 20px;
     border-radius: 50%;
     opacity: 0.8;
-    z-index: 4;
+    z-index: 7;
     animation: dustTrail 0.8s ease-out forwards;
     pointer-events: none;
     will-change: transform, opacity;
@@ -256,7 +252,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 20px #fff3c4;
     animation: floatLantern 10s linear infinite;
-    z-index: 3;
+    z-index: 8;
 }
 
 @keyframes floatLantern {
@@ -275,11 +271,11 @@ body {
 .compliment {
     position: absolute;
     font-size: 1.5rem;
-    color: #d63384;
+    color: #fff8fb;
     opacity: 0;
     animation: floatCompliment 6s ease-out forwards;
-    z-index: 10;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+    z-index: 9;
+    text-shadow: 0 0 8px rgba(214, 51, 132, 0.8), 0 0 12px #d63384;
 }
 
 @keyframes floatCompliment {
@@ -303,7 +299,7 @@ body {
     position: fixed;
     width: 10px;
     height: 10px;
-    background: radial-gradient(circle, #fff 0%, #ffd6f3 70%, transparent 100%);
+    background: radial-gradient(circle, #ffebf5 0%, #ffd6f3 70%, transparent 100%);
     border-radius: 50%;
     pointer-events: none;
     opacity: 1;

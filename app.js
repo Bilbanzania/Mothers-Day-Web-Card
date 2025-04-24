@@ -4,18 +4,19 @@ $(document).ready(function () {
 
     const compliments = [
         "You're amazing!",
-        "So loved 💕",
-        "Strong and graceful",
-        "Beautiful soul",
+        "So loved 💗",
+        "Strong, graceful, very demure 💌💜",
+        "No one compares!",
         "Best mom ever!",
-        "Kindness shines"
+        "Kindness shines 💖"
     ];
 
     // Cursor sparkles
     $(document).on('mousemove', function (e) {
         const sparkle = $('<div class="sparkle"></div>').css({
             left: e.pageX + 'px',
-            top: e.pageY + 'px'
+            top: e.pageY + 'px',
+            background: 'radial-gradient(circle, #fff 0%, #ffc3de 70%, transparent 100%)'
         });
         $('body').append(sparkle);
         setTimeout(() => sparkle.remove(), 1000);
