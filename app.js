@@ -2,9 +2,18 @@ $(document).ready(function () {
     const bgm = $('#bgm')[0];
     bgm.volume = 0.2;
 
+    // Show overlay only on touch devices
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        $('body').addClass('touch');
+    } else {
+        $('#tapOverlay').hide(); // Hide overlay for desktop users
+    }
+
     // Start background music on first interaction
     const startMusic = () => {
         bgm.play().catch(err => console.warn("Autoplay blocked:", err));
+        $('#tapOverlay').addClass('fade-out');
+        setTimeout(() => $('#tapOverlay').remove(), 1000); // remove from DOM after fade
         document.removeEventListener('click', startMusic);
         document.removeEventListener('keydown', startMusic);
         document.removeEventListener('mousemove', startMusic);
@@ -13,16 +22,17 @@ $(document).ready(function () {
     document.addEventListener('keydown', startMusic);
     document.addEventListener('mousemove', startMusic);
 
-    // Parallax clouds with fade-in
-    for (let i = 0; i < 3; i++) {
-        const cloud = $('<div class="cloud"></div>').css({
-            top: `${Math.random() * 30 + 5}%`,
-            left: '-250px',
-            animationDuration: `${Math.random() * 40 + 40}s`,
+    // Parallax clouds with size variations and fade-in
+    const cloudSizes = ['small', 'medium', 'large'];
+    for (let i = 0; i < 5; i++) {
+        const sizeClass = cloudSizes[Math.floor(Math.random() * cloudSizes.length)];
+        const cloud = $('<div class="cloud"></div>').addClass(sizeClass).css({
+            top: `${Math.random() * 40 + 5}%`,
+            left: '-300px',
             opacity: 0
         });
         $('body').append(cloud);
-        cloud.animate({ opacity: 0.5 }, 2000);
+        cloud.animate({ opacity: 0.7 }, 2000);
     }
 
     // Cherry blossom petals

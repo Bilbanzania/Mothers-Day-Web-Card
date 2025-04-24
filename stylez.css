@@ -95,35 +95,56 @@ body {
 /* Cloud Styles */
 .cloud {
     position: absolute;
-    width: 200px;
-    height: 100px;
-    background-size: contain;
+    background: radial-gradient(circle at center, #fff0f5 0%, #ffe6f0 70%, transparent 100%);
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    opacity: 0.5;
+    border-radius: 50%;
+    opacity: 0.7;
+    box-shadow: 0 0 20px rgba(255, 192, 203, 0.5);
+    filter: blur(1.5px);
     z-index: 1;
-    filter: blur(1px) brightness(1.05);
 }
 
-.cloud1 {
-    animation: drift1 90s linear infinite;
-    top: 10%;
-    transform: scale(1);
+.cloud.small {
+    width: 120px;
+    height: 60px;
+    animation: driftSmall 60s linear infinite;
 }
 
-.cloud2 {
-    animation: drift2 120s linear infinite;
-    top: 25%;
-    transform: scale(0.9);
+.cloud.medium {
+    width: 180px;
+    height: 90px;
+    animation: driftMedium 90s linear infinite;
 }
 
-.cloud3 {
-    animation: drift3 150s linear infinite;
-    top: 40%;
-    transform: scale(1.1);
+.cloud.large {
+    width: 240px;
+    height: 120px;
+    animation: driftLarge 120s linear infinite;
 }
 
-@keyframes drift1 {
+@keyframes driftSmall {
+    0% {
+        left: -150px;
+    }
+
+    100% {
+        left: 110%;
+    }
+}
+
+@keyframes driftMedium {
+    0% {
+        left: -200px;
+    }
+
+    100% {
+        left: 110%;
+    }
+}
+
+@keyframes driftLarge {
     0% {
         left: -250px;
     }
@@ -133,25 +154,6 @@ body {
     }
 }
 
-@keyframes drift2 {
-    0% {
-        left: -300px;
-    }
-
-    100% {
-        left: 110%;
-    }
-}
-
-@keyframes drift3 {
-    0% {
-        left: -200px;
-    }
-
-    100% {
-        left: 110%;
-    }
-}
 
 /* Petal Styles */
 .petal {
@@ -237,5 +239,45 @@ body {
         width: 90vw;
         max-height: 70vh;
         height: auto;
+    }
+}
+
+#tapOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 230, 240, 0.95);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-family: 'Dancing Script', cursive;
+    color: #d63384;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+}
+
+#tapOverlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.touch #tapOverlay {
+    display: flex;
+    animation: floatPulse 2s ease-in-out infinite;
+}
+
+@keyframes floatPulse {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.95;
+    }
+    50% {
+        transform: translateY(-6px) scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.95;
     }
 }
