@@ -2,27 +2,43 @@ $(document).ready(function () {
     const bgm = $('#bgm')[0];
     bgm.volume = 0.2;
 
-    // Show overlay only on touch devices
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-        $('body').addClass('touch');
-    } else {
-        $('#tapOverlay').hide(); // Hide overlay for desktop users
-    }
+    const compliments = [
+        "You're amazing!",
+        "So loved 💕",
+        "Strong and graceful",
+        "Beautiful soul",
+        "Best mom ever!",
+        "Kindness shines"
+    ];
+
+    // Cursor sparkles
+    $(document).on('mousemove', function (e) {
+        const sparkle = $('<div class="sparkle"></div>').css({
+            left: e.pageX + 'px',
+            top: e.pageY + 'px'
+        });
+        $('body').append(sparkle);
+        setTimeout(() => sparkle.remove(), 1000);
+    });
 
     // Start background music on first interaction
     const startMusic = () => {
         bgm.play().catch(err => console.warn("Autoplay blocked:", err));
-        $('#tapOverlay').addClass('fade-out');
-        setTimeout(() => $('#tapOverlay').remove(), 1000); // remove from DOM after fade
         document.removeEventListener('click', startMusic);
         document.removeEventListener('keydown', startMusic);
         document.removeEventListener('mousemove', startMusic);
+        $('#tapOverlay').addClass('fade-out');
     };
-    document.addEventListener('click', startMusic);
-    document.addEventListener('keydown', startMusic);
-    document.addEventListener('mousemove', startMusic);
 
-    // Parallax clouds with size variations and fade-in
+    if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+        document.addEventListener('click', startMusic);
+        document.addEventListener('keydown', startMusic);
+        document.addEventListener('mousemove', startMusic);
+    } else {
+        startMusic(); // Start immediately on desktop
+    }
+
+    // Parallax clouds
     const cloudSizes = ['small', 'medium', 'large'];
     for (let i = 0; i < 5; i++) {
         const sizeClass = cloudSizes[Math.floor(Math.random() * cloudSizes.length)];
@@ -35,7 +51,7 @@ $(document).ready(function () {
         cloud.animate({ opacity: 0.7 }, 2000);
     }
 
-    // Cherry blossom petals
+    // Sakura petals
     for (let i = 0; i < 15; i++) {
         const petal = $('<div class="petal"></div>').css({
             left: Math.random() * window.innerWidth + 'px',
@@ -45,6 +61,36 @@ $(document).ready(function () {
         });
         $('body').append(petal);
     }
+
+    // Sakura wind gust
+    for (let i = 0; i < 5; i++) {
+        const gust = $('<div class="wind-petal"></div>').css({
+            top: `${Math.random() * 80}vh`,
+            left: `${-Math.random() * 100}vw`,
+            animationDelay: `${Math.random() * 10}s`
+        });
+        $('body').append(gust);
+    }
+
+    // Lanterns
+    for (let i = 0; i < 6; i++) {
+        const lantern = $('<div class="lantern"></div>').css({
+            left: `${Math.random() * 100}vw`,
+            bottom: '-60px',
+            animationDelay: `${Math.random() * 10}s`
+        });
+        $('body').append(lantern);
+    }
+
+    // Floating compliments
+    setInterval(() => {
+        const msg = compliments[Math.floor(Math.random() * compliments.length)];
+        const comp = $('<div class="compliment"></div>').text(msg).css({
+            left: `${Math.random() * 80 + 10}vw`
+        });
+        $('body').append(comp);
+        setTimeout(() => comp.remove(), 6000);
+    }, 4000);
 
     // Slide in character
     $('#character').animate({ left: '0%' }, 1000, 'swing', function () {
@@ -65,7 +111,7 @@ $(document).ready(function () {
         $('#character').animate({ top: '-10px' }, 150)
             .animate({ top: '0px' }, 200);
 
-        // Reveal message with class
+        // Reveal message
         $('#message').addClass('show');
 
         // Floating hearts
