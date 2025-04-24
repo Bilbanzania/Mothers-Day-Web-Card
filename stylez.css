@@ -1,3 +1,4 @@
+/* 🌸 Base Layout & Structure */
 body {
     margin: 0;
     padding: 0;
@@ -12,6 +13,32 @@ body {
     position: relative;
 }
 
+#tapOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 230, 240, 0.95);
+    z-index: 999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-family: 'Dancing Script', cursive;
+    color: #d63384;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+}
+
+#tapOverlay.show {
+    display: flex;
+    opacity: 1;
+}
+
+#tapOverlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ✨ Text & Message */
 #message {
     margin-top: 20px;
     font-size: 2.5rem;
@@ -26,6 +53,11 @@ body {
         0 0 24px #ffd0f0,
         0 0 32px #ff9de2;
     animation: rainbowGlow 4s linear infinite;
+}
+
+#message.show {
+    opacity: 1;
+    transform: scale(1);
 }
 
 @keyframes rainbowGlow {
@@ -50,11 +82,7 @@ body {
     }
 }
 
-#message.show {
-    opacity: 1;
-    transform: scale(1);
-}
-
+/* 🖼️ Character Image */
 #character {
     position: relative;
     top: 0;
@@ -68,15 +96,7 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-.heart-container,
-.compliment,
-.petal,
-.wind-petal,
-.lantern,
-.dust {
-    z-index: 4;
-}
-
+/* 💖 Animated Hearts */
 .heart-container {
     position: absolute;
     bottom: 0;
@@ -129,26 +149,49 @@ body {
     }
 }
 
+/* ☁️ Parallax Clouds */
+#cloudLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+}
+
 .cloud {
     position: absolute;
-    opacity: 0.8;
+    opacity: 0.95;
     z-index: 2;
-    filter: blur(1px);
-    will-change: transform;
+    filter: blur(0.6px) brightness(1.4);
+    will-change: transform, left, filter;
+    left: -200px;
+    transition: transform 0.2s ease-out;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-name: colorShift;
+    animation-duration: 10s;
+    pointer-events: none;
 }
 
 .cloud::before,
 .cloud::after {
     content: "";
     position: absolute;
-    background: radial-gradient(circle at center, #fff0f5 0%, #ffe6f0 70%, transparent 100%);
+    background: radial-gradient(circle at center, #ffffff 0%, #ffeef8 70%, transparent 80%);
     border-radius: 50%;
+    box-shadow: 0 0 40px rgba(255, 240, 255, 0.6);
 }
 
+/* ☁️ Small Cloud */
 .cloud.small {
     width: 100px;
     height: 60px;
-    animation: driftSmall 60s linear infinite;
+    animation-name: driftSmall, floatCloud, colorShift;
+    animation-duration: 60s, 6s, 10s;
 }
 
 .cloud.small::before {
@@ -165,10 +208,12 @@ body {
     left: 70px;
 }
 
+/* ☁️ Medium Cloud */
 .cloud.medium {
     width: 160px;
     height: 90px;
-    animation: driftMedium 90s linear infinite;
+    animation-name: driftMedium, floatCloud, colorShift;
+    animation-duration: 90s, 7s, 10s;
 }
 
 .cloud.medium::before {
@@ -185,10 +230,12 @@ body {
     left: 100px;
 }
 
+/* ☁️ Large Cloud */
 .cloud.large {
     width: 220px;
     height: 120px;
-    animation: driftLarge 120s linear infinite;
+    animation-name: driftLarge, floatCloud, colorShift;
+    animation-duration: 120s, 8s, 10s;
 }
 
 .cloud.large::before {
@@ -205,6 +252,7 @@ body {
     left: 130px;
 }
 
+/* ☁️ Drift Animations */
 @keyframes driftSmall {
     0% {
         left: -150px;
@@ -235,16 +283,54 @@ body {
     }
 }
 
-.petal {
+/* ✨ Vertical Floating */
+@keyframes floatCloud {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* 🌈 Color Shift */
+@keyframes colorShift {
+    0% {
+        filter: hue-rotate(0deg) brightness(1.4) blur(0.6px);
+    }
+
+    25% {
+        filter: hue-rotate(40deg) brightness(1.45) blur(0.6px);
+    }
+
+    50% {
+        filter: hue-rotate(80deg) brightness(1.5) blur(0.6px);
+    }
+
+    75% {
+        filter: hue-rotate(40deg) brightness(1.45) blur(0.6px);
+    }
+
+    100% {
+        filter: hue-rotate(0deg) brightness(1.4) blur(0.6px);
+    }
+}
+
+/* 🌸 Petals & Sakura Gusts */
+.petal, .wind-petal {
     position: absolute;
-    width: 20px;
-    height: 20px;
     background: pink;
     border-radius: 50% 50% 50% 0;
     transform: rotate(45deg);
+    filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.7));
+}
+
+.petal {
+    width: 20px;
+    height: 20px;
     animation: fall 6s linear infinite;
     z-index: 4;
-    filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.7));
     will-change: transform, opacity;
 }
 
@@ -272,12 +358,8 @@ body {
 }
 
 .wind-petal {
-    position: absolute;
     width: 18px;
     height: 18px;
-    background: pink;
-    border-radius: 50% 50% 50% 0;
-    transform: rotate(45deg);
     animation: gust 12s ease-in-out infinite;
     filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.5));
 }
@@ -303,6 +385,106 @@ body {
     }
 }
 
+/* 🏮 Floating Lanterns */
+.lantern {
+    position: absolute;
+    width: 40px;
+    height: 60px;
+    background: linear-gradient(to top, #ffc, #fff0cc);
+    border-radius: 10px;
+    box-shadow: 0 0 20px #fff3c4;
+    animation: floatLantern 10s linear infinite;
+    z-index: 4;
+}
+
+@keyframes floatLantern {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-500px) rotate(20deg);
+        opacity: 0;
+    }
+}
+
+/* 💬 Compliments */
+.compliment {
+    position: absolute;
+    font-size: 1.8rem;
+    color: #fff;
+    text-shadow: 2px 2px 6px #d63384, 0 0 12px #ff99cc, 0 0 20px #ffccf9;
+    opacity: 0;
+    animation: floatCompliment 10s ease-out forwards;
+    z-index: 4;
+    pointer-events: none;
+}
+
+@keyframes floatCompliment {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        transform: translateY(-150px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-170px);
+        opacity: 0;
+    }
+}
+
+
+/* ✨ Cursor Sparkles */
+.sparkle {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: #fff0f8;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 1;
+    animation: sparkleFade 0.6s forwards;
+    z-index: 999;
+    box-shadow:
+        0 0 4px #ffd6f3,
+        0 0 6px #ffcce6,
+        0 0 8px #ffb3e6,
+        0 0 10px #ffa6d9;
+    will-change: transform, opacity;
+}
+
+@keyframes sparkleFade {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow:
+            0 0 4px #ffd6f3,
+            0 0 6px #ffcce6,
+            0 0 8px #ffb3e6,
+            0 0 10px #ffa6d9;
+    }
+
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+        box-shadow:
+            0 0 6px #ffd6f3,
+            0 0 8px #ffcce6,
+            0 0 10px #ffb3e6,
+            0 0 12px #ffa6d9;
+    }
+}
+
+/* 🌫️ Magic Dust Trail */
 .dust {
     position: absolute;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 182, 193, 0.3) 60%, transparent 100%);
@@ -333,79 +515,7 @@ body {
     }
 }
 
-.lantern {
-    position: absolute;
-    width: 40px;
-    height: 60px;
-    background: linear-gradient(to top, #ffc, #fff0cc);
-    border-radius: 10px;
-    box-shadow: 0 0 20px #fff3c4;
-    animation: floatLantern 10s linear infinite;
-    z-index: 4;
-}
-
-@keyframes floatLantern {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateY(-500px) rotate(20deg);
-        opacity: 0;
-    }
-}
-
-.compliment {
-    position: absolute;
-    font-size: 1.5rem;
-    color: #fff;
-    text-shadow: 1px 1px 4px #d63384, 0 0 10px #ff99cc;
-    opacity: 0;
-    animation: floatCompliment 6s ease-out forwards;
-    z-index: 4;
-}
-
-@keyframes floatCompliment {
-    0% {
-        transform: translateY(0);
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateY(-120px);
-        opacity: 0;
-    }
-}
-
-.sparkle {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background: radial-gradient(circle, #fff0f8 0%, #ffd6f3 60%, #ffcce6 100%);
-    border-radius: 50%;
-    pointer-events: none;
-    opacity: 1;
-    animation: sparkleFade 0.6s forwards;
-    z-index: 999;
-}
-
-@keyframes sparkleFade {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-
-    100% {
-        transform: scale(2);
-        opacity: 0;
-    }
-}
-
+/* 📱 Responsive Adjustments */
 @media (max-width: 768px) {
     body {
         justify-content: flex-start;
@@ -427,29 +537,4 @@ body {
     .compliment {
         bottom: 10vh !important;
     }
-}
-
-#tapOverlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(255, 230, 240, 0.95);
-    z-index: 999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    font-family: 'Dancing Script', cursive;
-    color: #d63384;
-    transition: opacity 0.5s ease;
-    cursor: pointer;
-}
-
-#tapOverlay.show {
-    display: flex;
-    opacity: 1;
-}
-
-#tapOverlay.fade-out {
-    opacity: 0;
-    pointer-events: none;
 }

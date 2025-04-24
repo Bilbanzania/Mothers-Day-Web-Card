@@ -1,7 +1,9 @@
+// --- Audio Setup ---
 $(document).ready(function () {
     const bgm = $('#bgm')[0];
     bgm.volume = 0.2;
 
+    // --- Compliments Array ---
     const compliments = [
         "You're amazing!",
         "So loved 💗",
@@ -11,7 +13,7 @@ $(document).ready(function () {
         "Kindness shines 💖"
     ];
 
-    // Cursor sparkles with animated color shift
+    // --- Sparkles and Click Ripple Effects ---
     $(document).on('mousemove', function (e) {
         const sparkle = $('<div class="sparkle sparkle-animated"></div>').css({
             left: e.pageX - 5 + 'px',
@@ -21,8 +23,6 @@ $(document).ready(function () {
         setTimeout(() => sparkle.remove(), 600);
     });
 
-
-    // Glow ripple on click
     $(document).on('click', function (e) {
         const ripple = $('<div class="ripple"></div>').css({
             left: e.pageX - 25 + 'px',
@@ -32,7 +32,7 @@ $(document).ready(function () {
         setTimeout(() => ripple.remove(), 1000);
     });
 
-    // Start background music on first interaction
+    // --- Music Autoplay Handling ---
     const startMusic = () => {
         bgm.play().catch(err => console.warn("Autoplay blocked:", err));
         document.removeEventListener('click', startMusic);
@@ -43,10 +43,10 @@ $(document).ready(function () {
     if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
         document.addEventListener('click', startMusic, { once: true });
     } else {
-        startMusic(); // Start immediately on desktop
+        startMusic();
     }
 
-    // Parallax clouds
+    // --- Parallax Clouds ---
     const cloudSizes = ['small', 'medium', 'large'];
     for (let i = 0; i < 5; i++) {
         const sizeClass = cloudSizes[Math.floor(Math.random() * cloudSizes.length)];
@@ -59,7 +59,7 @@ $(document).ready(function () {
         cloud.animate({ opacity: 0.7 }, 2000);
     }
 
-    // Sakura petals
+    // --- Sakura Petals ---
     for (let i = 0; i < 15; i++) {
         const petal = $('<div class="petal"></div>').css({
             left: Math.random() * window.innerWidth + 'px',
@@ -70,7 +70,7 @@ $(document).ready(function () {
         $('#petalLayer').append(petal);
     }
 
-    // Sakura wind gust
+    // --- Wind Gusts ---
     for (let i = 0; i < 5; i++) {
         const gust = $('<div class="wind-petal"></div>').css({
             top: `${Math.random() * 80}vh`,
@@ -80,7 +80,7 @@ $(document).ready(function () {
         $('#petalLayer').append(gust);
     }
 
-    // Lanterns
+    // --- Lanterns ---
     for (let i = 0; i < 6; i++) {
         const lantern = $('<div class="lantern"></div>').css({
             left: `${Math.random() * 100}vw`,
@@ -90,14 +90,14 @@ $(document).ready(function () {
         $('#petalLayer').append(lantern);
     }
 
-    // Floating compliments
+    // --- Floating Compliments ---
     setInterval(() => {
         const msg = compliments[Math.floor(Math.random() * compliments.length)];
         const comp = $('<div class="compliment"></div>').text(msg);
 
         const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
         const bottomStart = isMobile ? '10vh' : '5vh';
-        const floatDuration = isMobile ? '8s' : '6s';
+        const floatDuration = isMobile ? '12s' : '10s';
 
         comp.css({
             left: `${Math.random() * 80 + 10}vw`,
@@ -109,7 +109,7 @@ $(document).ready(function () {
         setTimeout(() => comp.remove(), parseFloat(floatDuration) * 1000);
     }, 4000);
 
-    // Slide in character
+    // --- Character Animation + Hearts & Dust Trail ---
     $('#character').animate({ left: '0%' }, 1000, 'swing', function () {
         // Dust trail
         let trailInterval = setInterval(() => {
@@ -128,10 +128,10 @@ $(document).ready(function () {
         $('#character').animate({ top: '-10px' }, 150)
             .animate({ top: '0px' }, 200);
 
-        // Reveal message
+        // Show message
         $('#message').addClass('show');
 
-        // Floating hearts
+        // Floating Hearts
         let usedPositions = [];
         const pastelColors = ['#ffb6c1', '#ffc0cb', '#ff69b4', '#ff99cc', '#f8bedd', '#fcb3d1'];
 
@@ -165,5 +165,17 @@ $(document).ready(function () {
             $('#petalLayer').append(heartContainer);
             setTimeout(() => heartContainer.remove(), duration * 1000);
         }
+    });
+
+    // --- Mouse Parallax for Clouds ---
+    $(document).on('mousemove', function (e) {
+        const x = (e.clientX / window.innerWidth - 0.5) * 30;
+        const y = (e.clientY / window.innerHeight - 0.5) * 10;
+        $('.cloud').each(function (i) {
+            const depth = (i % 3) + 1;
+            const moveX = x / depth;
+            const moveY = y / depth;
+            $(this).css('transform', `translate(${moveX}px, ${moveY}px)`);
+        });
     });
 });
