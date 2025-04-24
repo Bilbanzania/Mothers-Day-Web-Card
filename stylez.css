@@ -63,17 +63,28 @@ body {
     width: auto;
     max-width: 90vw;
     height: auto;
-    z-index: 5;
+    z-index: 3;
     border-radius: 2rem;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-/* Heart Styles */
+.heart-container,
+.compliment,
+.petal,
+.wind-petal,
+.lantern,
+.dust {
+    z-index: 4;
+}
+
 .heart-container {
     position: absolute;
+    bottom: 0;
+    left: 0;
     animation: floatUp 3s ease-out forwards;
-    z-index: 10;
+    z-index: 11;
     will-change: transform, opacity;
+    pointer-events: none;
 }
 
 .heart {
@@ -118,14 +129,20 @@ body {
     }
 }
 
-/* Cloud Styles */
 .cloud {
     position: absolute;
-    border-radius: 50%;
     opacity: 0.8;
-    filter: blur(2px);
-    background: radial-gradient(circle at 30% 30%, #ffffff 20%, #fff0f5 70%, transparent 100%);
-    z-index: 6;
+    z-index: 2;
+    filter: blur(1px);
+    will-change: transform;
+}
+
+.cloud::before,
+.cloud::after {
+    content: "";
+    position: absolute;
+    background: radial-gradient(circle at center, #fff0f5 0%, #ffe6f0 70%, transparent 100%);
+    border-radius: 50%;
 }
 
 .cloud.small {
@@ -134,16 +151,58 @@ body {
     animation: driftSmall 60s linear infinite;
 }
 
+.cloud.small::before {
+    width: 70px;
+    height: 70px;
+    top: -15px;
+    left: 30px;
+}
+
+.cloud.small::after {
+    width: 50px;
+    height: 50px;
+    top: -5px;
+    left: 70px;
+}
+
 .cloud.medium {
     width: 160px;
     height: 90px;
     animation: driftMedium 90s linear infinite;
 }
 
+.cloud.medium::before {
+    width: 100px;
+    height: 100px;
+    top: -20px;
+    left: 40px;
+}
+
+.cloud.medium::after {
+    width: 70px;
+    height: 70px;
+    top: -10px;
+    left: 100px;
+}
+
 .cloud.large {
     width: 220px;
     height: 120px;
     animation: driftLarge 120s linear infinite;
+}
+
+.cloud.large::before {
+    width: 130px;
+    height: 130px;
+    top: -30px;
+    left: 50px;
+}
+
+.cloud.large::after {
+    width: 90px;
+    height: 90px;
+    top: -20px;
+    left: 130px;
 }
 
 @keyframes driftSmall {
@@ -176,7 +235,6 @@ body {
     }
 }
 
-/* Petal Styles */
 .petal {
     position: absolute;
     width: 20px;
@@ -185,7 +243,7 @@ body {
     border-radius: 50% 50% 50% 0;
     transform: rotate(45deg);
     animation: fall 6s linear infinite;
-    z-index: 8;
+    z-index: 4;
     filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.7));
     will-change: transform, opacity;
 }
@@ -213,6 +271,38 @@ body {
     }
 }
 
+.wind-petal {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: pink;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(45deg);
+    animation: gust 12s ease-in-out infinite;
+    filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.5));
+}
+
+@keyframes gust {
+    0% {
+        transform: translateX(0) translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateX(100vw) translateY(-100px) rotate(360deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateX(110vw) translateY(-200px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
 .dust {
     position: absolute;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 182, 193, 0.3) 60%, transparent 100%);
@@ -220,7 +310,7 @@ body {
     height: 20px;
     border-radius: 50%;
     opacity: 0.8;
-    z-index: 7;
+    z-index: 4;
     animation: dustTrail 0.8s ease-out forwards;
     pointer-events: none;
     will-change: transform, opacity;
@@ -243,7 +333,6 @@ body {
     }
 }
 
-/* Floating lanterns */
 .lantern {
     position: absolute;
     width: 40px;
@@ -252,7 +341,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 20px #fff3c4;
     animation: floatLantern 10s linear infinite;
-    z-index: 8;
+    z-index: 4;
 }
 
 @keyframes floatLantern {
@@ -267,15 +356,14 @@ body {
     }
 }
 
-/* Floating compliments */
 .compliment {
     position: absolute;
     font-size: 1.5rem;
-    color: #fff8fb;
+    color: #fff;
+    text-shadow: 1px 1px 4px #d63384, 0 0 10px #ff99cc;
     opacity: 0;
     animation: floatCompliment 6s ease-out forwards;
-    z-index: 9;
-    text-shadow: 0 0 8px rgba(214, 51, 132, 0.8), 0 0 12px #d63384;
+    z-index: 4;
 }
 
 @keyframes floatCompliment {
@@ -294,12 +382,11 @@ body {
     }
 }
 
-/* Cursor sparkles */
 .sparkle {
     position: fixed;
     width: 10px;
     height: 10px;
-    background: radial-gradient(circle, #ffebf5 0%, #ffd6f3 70%, transparent 100%);
+    background: radial-gradient(circle, #fff0f8 0%, #ffd6f3 60%, #ffcce6 100%);
     border-radius: 50%;
     pointer-events: none;
     opacity: 1;
@@ -319,7 +406,6 @@ body {
     }
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     body {
         justify-content: flex-start;
@@ -336,6 +422,10 @@ body {
         width: 90vw;
         max-height: 70vh;
         height: auto;
+    }
+
+    .compliment {
+        bottom: 10vh !important;
     }
 }
 
@@ -356,6 +446,7 @@ body {
 
 #tapOverlay.show {
     display: flex;
+    opacity: 1;
 }
 
 #tapOverlay.fade-out {

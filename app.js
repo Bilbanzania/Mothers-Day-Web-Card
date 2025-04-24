@@ -11,30 +11,37 @@ $(document).ready(function () {
         "Kindness shines 💖"
     ];
 
-    // Cursor sparkles
+    // Cursor sparkles with animated color shift
     $(document).on('mousemove', function (e) {
-        const sparkle = $('<div class="sparkle"></div>').css({
-            left: e.pageX + 'px',
-            top: e.pageY + 'px',
-            background: 'radial-gradient(circle, #fff 0%, #ffc3de 70%, transparent 100%)'
+        const sparkle = $('<div class="sparkle sparkle-animated"></div>').css({
+            left: e.pageX - 5 + 'px',
+            top: e.pageY - 5 + 'px'
         });
-        $('body').append(sparkle);
-        setTimeout(() => sparkle.remove(), 1000);
+        $('#sparkleLayer').append(sparkle);
+        setTimeout(() => sparkle.remove(), 600);
+    });
+
+
+    // Glow ripple on click
+    $(document).on('click', function (e) {
+        const ripple = $('<div class="ripple"></div>').css({
+            left: e.pageX - 25 + 'px',
+            top: e.pageY - 25 + 'px'
+        });
+        $('body').append(ripple);
+        setTimeout(() => ripple.remove(), 1000);
     });
 
     // Start background music on first interaction
     const startMusic = () => {
         bgm.play().catch(err => console.warn("Autoplay blocked:", err));
         document.removeEventListener('click', startMusic);
-        document.removeEventListener('keydown', startMusic);
-        document.removeEventListener('mousemove', startMusic);
         $('#tapOverlay').addClass('fade-out');
+        setTimeout(() => $('#tapOverlay').hide(), 500);
     };
 
     if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-        document.addEventListener('click', startMusic);
-        document.addEventListener('keydown', startMusic);
-        document.addEventListener('mousemove', startMusic);
+        document.addEventListener('click', startMusic, { once: true });
     } else {
         startMusic(); // Start immediately on desktop
     }
@@ -43,12 +50,12 @@ $(document).ready(function () {
     const cloudSizes = ['small', 'medium', 'large'];
     for (let i = 0; i < 5; i++) {
         const sizeClass = cloudSizes[Math.floor(Math.random() * cloudSizes.length)];
-        const cloud = $('<div class="cloud"></div>').addClass(sizeClass).css({
+        const cloud = $('<div class="cloud fluffy"></div>').addClass(sizeClass).css({
             top: `${Math.random() * 40 + 5}%`,
             left: '-300px',
             opacity: 0
         });
-        $('body').append(cloud);
+        $('#cloudLayer').append(cloud);
         cloud.animate({ opacity: 0.7 }, 2000);
     }
 
@@ -60,7 +67,7 @@ $(document).ready(function () {
             animationDuration: (Math.random() * 3 + 4) + 's',
             opacity: Math.random() * 0.5 + 0.5
         });
-        $('body').append(petal);
+        $('#petalLayer').append(petal);
     }
 
     // Sakura wind gust
@@ -70,7 +77,7 @@ $(document).ready(function () {
             left: `${-Math.random() * 100}vw`,
             animationDelay: `${Math.random() * 10}s`
         });
-        $('body').append(gust);
+        $('#petalLayer').append(gust);
     }
 
     // Lanterns
@@ -80,17 +87,26 @@ $(document).ready(function () {
             bottom: '-60px',
             animationDelay: `${Math.random() * 10}s`
         });
-        $('body').append(lantern);
+        $('#petalLayer').append(lantern);
     }
 
     // Floating compliments
     setInterval(() => {
         const msg = compliments[Math.floor(Math.random() * compliments.length)];
-        const comp = $('<div class="compliment"></div>').text(msg).css({
-            left: `${Math.random() * 80 + 10}vw`
+        const comp = $('<div class="compliment"></div>').text(msg);
+
+        const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+        const bottomStart = isMobile ? '10vh' : '5vh';
+        const floatDuration = isMobile ? '8s' : '6s';
+
+        comp.css({
+            left: `${Math.random() * 80 + 10}vw`,
+            bottom: bottomStart,
+            animationDuration: floatDuration
         });
-        $('body').append(comp);
-        setTimeout(() => comp.remove(), 6000);
+
+        $('#petalLayer').append(comp);
+        setTimeout(() => comp.remove(), parseFloat(floatDuration) * 1000);
     }, 4000);
 
     // Slide in character
@@ -102,7 +118,7 @@ $(document).ready(function () {
                 left: offset.left + Math.random() * 30 - 15 + 'px',
                 top: offset.top + $('#character').height() - 40 + Math.random() * 20 + 'px'
             });
-            $('body').append(trail);
+            $('#dustLayer').append(trail);
             setTimeout(() => trail.remove(), 1000);
         }, 80);
 
@@ -146,7 +162,7 @@ $(document).ready(function () {
             });
 
             heartContainer.append(heart);
-            $('body').append(heartContainer);
+            $('#petalLayer').append(heartContainer);
             setTimeout(() => heartContainer.remove(), duration * 1000);
         }
     });
