@@ -3,16 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Happy Mother's Day!</title>
+    <link rel="icon" href="media/heart.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="stylez.css">
 </head>
 
-<body>
-    <img id="character" src="media/chibi_mdp.png" alt="Chibi Character">
-    <div id="message">Happy Mother's Day!</div>
+<body style="background-color: #fff; font-family: 'Dancing Script', cursive;">
+    <main id="card-content">
+        <img id="character" src="media/chibi_mdp.png" alt="Chibi-style illustration of you"
+            aria-label="Decorative chibi-style character">
+        <div id="message">Happy Mother's Day!</div>
+    </main>
     <audio id="bgm" src="media/background.mp3" preload="auto" loop></audio>
     <script src="app.js"></script>
 </body>

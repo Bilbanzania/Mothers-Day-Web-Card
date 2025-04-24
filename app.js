@@ -13,13 +13,16 @@ $(document).ready(function () {
     document.addEventListener('keydown', startMusic);
     document.addEventListener('mousemove', startMusic);
 
-    // Parallax clouds
+    // Parallax clouds with fade-in
     for (let i = 0; i < 3; i++) {
         const cloud = $('<div class="cloud"></div>').css({
             top: `${Math.random() * 30 + 5}%`,
-            animationDuration: `${Math.random() * 40 + 40}s`
+            left: '-250px',
+            animationDuration: `${Math.random() * 40 + 40}s`,
+            opacity: 0
         });
         $('body').append(cloud);
+        cloud.animate({ opacity: 0.5 }, 2000);
     }
 
     // Cherry blossom petals
@@ -52,8 +55,8 @@ $(document).ready(function () {
         $('#character').animate({ top: '-10px' }, 150)
             .animate({ top: '0px' }, 200);
 
-        // Reveal message
-        $('#message').css({ opacity: 1, transform: 'scale(1)' });
+        // Reveal message with class
+        $('#message').addClass('show');
 
         // Floating hearts
         let usedPositions = [];
