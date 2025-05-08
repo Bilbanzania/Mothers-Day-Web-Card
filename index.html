@@ -3,11 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A magical animated Mother's Day card made with love 💖">
     <title>Happy Mother's Day!</title>
     <link rel="icon" href="media/heart.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="preload" as="image" href="media/chibi_mdp.png">
     <link rel="preload" as="audio" href="media/background.mp3">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -16,24 +17,21 @@
 </head>
 
 <body>
-    <!-- Animation Layers -->
     <div id="cloudLayer" aria-hidden="true"></div>
     <div id="petalLayer" aria-hidden="true"></div>
     <div id="heartLayer" aria-hidden="true"></div>
     <div id="dustLayer" aria-hidden="true"></div>
+    <div id="sparkleLayer" aria-hidden="true"></div>
 
-    <!-- Main Content -->
     <main id="card-content">
-        <img id="character" src="media/chibi_mdp.png" alt="Chibi-style illustration of you" role="img">
+        <img id="character" src="media/chibi_mdp.png" alt="Chibi-style illustration of you">
         <div id="message">Happy Mother's Day!</div>
     </main>
 
-    <!-- Audio -->
     <audio id="bgm" src="media/background.mp3" preload="auto" loop></audio>
 
-    <!-- Tap to Begin Overlay -->
     <div id="tapOverlay">
-        <p role="alert">Tap to Begin 💖</p>
+        <p>Tap to Begin 💖</p>
     </div>
 </body>
 

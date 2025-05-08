@@ -43,21 +43,17 @@ body {
     inset: 0;
     background: rgba(255, 230, 240, 0.95);
     z-index: 999;
-    display: none;
+    display: flex;
+    opacity: 1;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    font-family: 'Dancing Script', cursive;
     color: #d63384;
     transition: opacity 0.5s ease;
     cursor: pointer;
 }
 
-#tapOverlay.show {
-    display: flex;
-    opacity: 1;
-}
-
+/* JS will add fade-out to hide it */
 #tapOverlay.fade-out {
     opacity: 0;
     pointer-events: none;
@@ -68,10 +64,9 @@ body {
     margin-top: 20px;
     font-size: 2.5rem;
     color: #d63384;
-    font-family: 'Dancing Script', cursive;
     opacity: 0;
     transform: scale(0.8);
-    transition: all 0.6s ease;
+    transition: opacity 0.6s ease, transform 0.6s ease;
     z-index: 12;
     text-shadow: 0 0 12px rgba(255, 255, 255, 0.9),
         0 0 16px #ff77e9,
@@ -87,31 +82,51 @@ body {
 
 @keyframes rainbowGlow {
     0% {
-        text-shadow: 0 0 8px #ff77e9;
+        text-shadow: 0 0 8px #ff77e9, 0 0 12px rgba(255, 255, 255, 0.9), 0 0 16px #ff77e9, 0 0 24px #ffd0f0, 0 0 32px #ff9de2;
     }
 
     25% {
-        text-shadow: 0 0 8px #ffa7e1;
+        text-shadow: 0 0 8px #ffa7e1, 0 0 12px rgba(255, 255, 255, 0.9), 0 0 16px #ffa7e1, 0 0 24px #ffd0f0, 0 0 32px #ff9de2;
     }
 
     50% {
-        text-shadow: 0 0 8px #ffd0f0;
+        text-shadow: 0 0 8px #ffd0f0, 0 0 12px rgba(255, 255, 255, 0.9), 0 0 16px #ffd0f0, 0 0 24px #ffd0f0, 0 0 32px #ff9de2;
     }
 
     75% {
-        text-shadow: 0 0 8px #ffb6f0;
+        text-shadow: 0 0 8px #ffb6f0, 0 0 12px rgba(255, 255, 255, 0.9), 0 0 16px #ffb6f0, 0 0 24px #ffd0f0, 0 0 32px #ff9de2;
     }
 
     100% {
-        text-shadow: 0 0 8px #ff77e9;
+        text-shadow: 0 0 8px #ff77e9, 0 0 12px rgba(255, 255, 255, 0.9), 0 0 16px #ff77e9, 0 0 24px #ffd0f0, 0 0 32px #ff9de2;
     }
 }
 
 /* 🖼️ Character Image */
+@keyframes floatCharacter {
+    0%, 100% {
+        transform: translateY(0px) translateX(0%);
+    }
+
+    50% {
+        transform: translateY(-10px) translateX(0%);
+    }
+}
+
+@keyframes slideInCharacter {
+    from {
+        transform: translateX(-100%) translateY(0px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0%) translateY(0px);
+        opacity: 1;
+    }
+}
+
 #character {
     position: relative;
-    top: 0;
-    left: -100%;
     max-height: 80vh;
     width: auto;
     max-width: 90vw;
@@ -123,24 +138,19 @@ body {
         0 0 20px rgba(255, 192, 203, 0.3),
         0 0 40px rgba(255, 182, 193, 0.25),
         0 0 60px rgba(255, 240, 245, 0.3);
-    animation: floatCharacter 6s ease-in-out infinite;
+    opacity: 0;
+    transform: translateX(-100%) translateY(0px);
 }
 
-@keyframes floatCharacter {
-    0%, 100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
+#character.enter {
+    animation: slideInCharacter 1s ease-out forwards,
+        floatCharacter 6s ease-in-out 1s infinite;
 }
 
 /* 💖 Animated Hearts */
 .heart-container {
     position: absolute;
-    bottom: 0;
-    left: 0;
+    /* bottom and left set by JS */
     animation: floatUp 3s ease-out forwards;
     z-index: 11;
     will-change: transform, opacity;
@@ -207,14 +217,42 @@ body {
     opacity: 0.95;
     z-index: 2;
     filter: blur(0.6px) brightness(1.4);
-    will-change: transform, left, filter;
+    will-change: transform, left, filter, opacity;
     left: -200px;
-    transition: transform 0.2s ease-out;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-name: colorShift;
-    animation-duration: 10s;
+    /* Initial position for drift animation */
     pointer-events: none;
+}
+
+.cloud.fluffy::before,
+.cloud.fluffy::after {
+    background: radial-gradient(circle at center, #ffffff 0%, #fff5fa 65%, transparent 80%);
+    /* Adjusted percentages */
+    box-shadow: 0 0 40px rgba(255, 248, 255, 0.75);
+    /* Slightly different shadow */
+}
+
+.cloud.small.fluffy {
+    animation:
+        driftSmall 60s linear infinite,
+        floatCloud 6s ease-in-out infinite,
+        colorShift 10s linear infinite,
+        fluffyOpacityPulse 4s ease-in-out infinite;
+}
+
+.cloud.medium.fluffy {
+    animation:
+        driftMedium 90s linear infinite,
+        floatCloud 7s ease-in-out infinite,
+        colorShift 10s linear infinite,
+        fluffyOpacityPulse 4s ease-in-out infinite;
+}
+
+.cloud.large.fluffy {
+    animation:
+        driftLarge 120s linear infinite,
+        floatCloud 8s ease-in-out infinite,
+        colorShift 10s linear infinite,
+        fluffyOpacityPulse 4s ease-in-out infinite;
 }
 
 .cloud::before,
@@ -226,12 +264,57 @@ body {
     box-shadow: 0 0 40px rgba(255, 240, 255, 0.6);
 }
 
-/* ☁️ Small Cloud */
+/* ☁️ Cloud Animations */
+@keyframes floatCloud {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes colorShift {
+    0% {
+        filter: hue-rotate(0deg) brightness(1.4) blur(0.6px);
+    }
+
+    25% {
+        filter: hue-rotate(40deg) brightness(1.45) blur(0.6px);
+    }
+
+    50% {
+        filter: hue-rotate(80deg) brightness(1.5) blur(0.6px);
+    }
+
+    75% {
+        filter: hue-rotate(40deg) brightness(1.45) blur(0.6px);
+    }
+
+    100% {
+        filter: hue-rotate(0deg) brightness(1.4) blur(0.6px);
+    }
+}
+
+@keyframes fluffyOpacityPulse {
+    0%, 100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1.0;
+    }
+}
+
+/* Small Cloud */
 .cloud.small {
     width: 100px;
     height: 60px;
-    animation-name: driftSmall, floatCloud, colorShift;
-    animation-duration: 60s, 6s, 10s;
+    animation:
+        driftSmall 60s linear infinite,
+        floatCloud 6s ease-in-out infinite,
+        colorShift 10s linear infinite;
 }
 
 .cloud.small::before {
@@ -248,12 +331,14 @@ body {
     left: 70px;
 }
 
-/* ☁️ Medium Cloud */
+/* Medium Cloud */
 .cloud.medium {
     width: 160px;
     height: 90px;
-    animation-name: driftMedium, floatCloud, colorShift;
-    animation-duration: 90s, 7s, 10s;
+    animation:
+        driftMedium 90s linear infinite,
+        floatCloud 7s ease-in-out infinite,
+        colorShift 10s linear infinite;
 }
 
 .cloud.medium::before {
@@ -270,12 +355,14 @@ body {
     left: 100px;
 }
 
-/* ☁️ Large Cloud */
+/* Large Cloud */
 .cloud.large {
     width: 220px;
     height: 120px;
-    animation-name: driftLarge, floatCloud, colorShift;
-    animation-duration: 120s, 8s, 10s;
+    animation:
+        driftLarge 120s linear infinite,
+        floatCloud 8s ease-in-out infinite,
+        colorShift 10s linear infinite;
 }
 
 .cloud.large::before {
@@ -323,46 +410,13 @@ body {
     }
 }
 
-/* ✨ Vertical Floating */
-@keyframes floatCloud {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-/* 🌈 Color Shift */
-@keyframes colorShift {
-    0% {
-        filter: hue-rotate(0deg) brightness(1.4) blur(0.6px);
-    }
-
-    25% {
-        filter: hue-rotate(40deg) brightness(1.45) blur(0.6px);
-    }
-
-    50% {
-        filter: hue-rotate(80deg) brightness(1.5) blur(0.6px);
-    }
-
-    75% {
-        filter: hue-rotate(40deg) brightness(1.45) blur(0.6px);
-    }
-
-    100% {
-        filter: hue-rotate(0deg) brightness(1.4) blur(0.6px);
-    }
-}
-
 /* 🌸 Petals & Sakura Gusts */
 .petal, .wind-petal {
     position: absolute;
     background: pink;
     border-radius: 50% 50% 50% 0;
     transform: rotate(45deg);
+    /* Base rotation for shape */
     filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.7));
 }
 
@@ -377,6 +431,7 @@ body {
 @keyframes fall {
     0% {
         transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
     }
 
     25% {
@@ -402,6 +457,7 @@ body {
     height: 18px;
     animation: gust 12s ease-in-out infinite;
     filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.5));
+    /* opacity is handled by the animation keyframes */
 }
 
 @keyframes gust {
@@ -453,12 +509,19 @@ body {
 .compliment {
     position: absolute;
     font-size: 1.8rem;
+    font-weight: 600;
     color: #fff;
-    text-shadow: 2px 2px 6px #d63384, 0 0 12px #ff99cc, 0 0 20px #ffccf9;
+    text-shadow:
+        0px 0px 1px rgba(100, 20, 60, 0.5),
+        0px 0px 3px rgba(100, 20, 60, 0.4),
+        0 0 8px #d63384,
+        0 0 15px #ff77e9,
+        0 0 25px #ff99cc;
     opacity: 0;
     animation: floatCompliment 10s ease-out forwards;
     z-index: 4;
     pointer-events: none;
+    /* bottom and left are set by JS */
 }
 
 @keyframes floatCompliment {
@@ -476,12 +539,12 @@ body {
         opacity: 1;
     }
 
+    /* Keep visible longer */
     100% {
         transform: translateY(-170px);
         opacity: 0;
     }
 }
-
 
 /* ✨ Cursor Sparkles */
 .sparkle {
@@ -499,7 +562,7 @@ body {
         0 0 6px #ffcce6,
         0 0 8px #ffb3e6,
         0 0 10px #ffa6d9;
-    will-change: transform, opacity;
+    will-change: transform, opacity, box-shadow;
 }
 
 @keyframes sparkleFade {
@@ -507,31 +570,28 @@ body {
         transform: scale(1);
         opacity: 1;
         box-shadow:
-            0 0 4px #ffd6f3,
-            0 0 6px #ffcce6,
-            0 0 8px #ffb3e6,
-            0 0 10px #ffa6d9;
+            0 0 4px #ffd6f3, 0 0 6px #ffcce6, 0 0 8px #ffb3e6, 0 0 10px #ffa6d9;
     }
 
     100% {
         transform: scale(1.8);
         opacity: 0;
         box-shadow:
-            0 0 6px #ffd6f3,
-            0 0 8px #ffcce6,
-            0 0 10px #ffb3e6,
-            0 0 12px #ffa6d9;
+            0 0 6px rgba(255, 214, 243, 0.5), 0 0 8px rgba(255, 204, 230, 0.4),
+            0 0 10px rgba(255, 179, 230, 0.3), 0 0 12px rgba(255, 166, 217, 0.2);
     }
 }
 
 /* 🌫️ Magic Dust Trail */
 .dust {
     position: absolute;
+    /* Positioned by JS relative to character */
     background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 182, 193, 0.3) 60%, transparent 100%);
     width: 20px;
     height: 20px;
     border-radius: 50%;
     opacity: 0.8;
+    /* Initial opacity */
     z-index: 4;
     animation: dustTrail 0.8s ease-out forwards;
     pointer-events: none;
@@ -555,12 +615,40 @@ body {
     }
 }
 
+/* 💧 Click Ripple Effect */
+.ripple {
+    position: fixed;
+    border-radius: 50%;
+    background: rgba(214, 51, 132, 0.3);
+    transform: scale(0);
+    animation: rippleEffect 0.7s ease-out forwards;
+    pointer-events: none;
+    z-index: 998;
+    width: 50px;
+    height: 50px;
+}
+
+@keyframes rippleEffect {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
 /* 📱 Responsive Adjustments */
 @media (max-width: 768px) {
     body {
         justify-content: flex-start;
         padding-top: 2rem;
-        font-size: 16px;
         overflow-x: hidden;
         touch-action: manipulation;
     }
@@ -579,12 +667,11 @@ body {
     #character {
         width: 90vw;
         max-height: 65vh;
-        height: auto;
         margin-bottom: 1rem;
     }
 
     .compliment {
-        bottom: 10vh !important;
+        bottom: 10vh;
         font-size: 1.2rem;
         padding: 0 1rem;
         text-align: center;
@@ -595,26 +682,25 @@ body {
         height: 10px;
     }
 
-    /* Lighter animation load on mobile */
     .cloud, .petal, .lantern, .wind-petal, .heart-container {
-        animation-duration: 0.85x;
+        /* This will override more specific animation timings from base styles if any were different */
         animation-timing-function: ease-in-out;
     }
 
     #cloudLayer,
     #petalLayer,
     #heartLayer,
-    #dustLayer {
+    #dustLayer,
+    #sparkleLayer {
         overflow: hidden;
         overscroll-behavior: contain;
     }
 }
 
-/* 📱📱 Ultra-Small Screens (like iPhone SE or older Androids) */
+/* 📱 Small Screens (like iPhone SE or older Androids) */
 @media (max-width: 480px) {
     body {
         padding-top: 1rem;
-        font-size: 14px;
     }
 
     #tapOverlay {
@@ -635,7 +721,7 @@ body {
 
     .compliment {
         font-size: 1rem;
-        bottom: 8vh !important;
+        bottom: 8vh;
         padding: 0 0.5rem;
     }
 
@@ -645,8 +731,8 @@ body {
     }
 
     .heart {
-        width: 14px !important;
-        height: 14px !important;
+        width: 14px;
+        height: 14px;
     }
 
     .lantern {
@@ -656,6 +742,7 @@ body {
 
     .petal,
     .wind-petal {
-        transform: scale(0.8);
+        /* Combines scale with existing base rotation */
+        transform: scale(0.8) rotate(45deg);
     }
 }
