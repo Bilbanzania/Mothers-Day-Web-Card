@@ -1,8 +1,24 @@
-/* 🌸 Base Layout & Structure */
+/* 🎨 Color & Style Foundations 🎨 */
+:root {
+    --bg-grad-1: #ffe6f0;
+    --bg-grad-2: #f0e6ff;
+    --bg-grad-3: #fff0f5;
+    --vignette-1: rgba(220, 190, 230, 0.2);
+    --vignette-2: rgba(200, 170, 210, 0.15);
+    --text-pink: #d63384;
+    --glow-pink-1: #ff77e9;
+    --glow-pink-2: #ffd0f0;
+    --glow-pink-3: #ff9de2;
+    --shadow-pink-1: rgba(255, 192, 203, 0.3);
+    --shadow-pink-2: rgba(255, 182, 193, 0.25);
+    --shadow-lavender: rgba(255, 240, 245, 0.3);
+}
+
+/* 🌸 Base Layout & Structure 🌸 */
 body {
     margin: 0;
     padding: 0;
-    background: linear-gradient(120deg, #ffe6f0, #f0e6ff, #fff0f5, #ffe6f0);
+    background: linear-gradient(120deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3), var(--bg-grad-1));
     background-size: 800% 800%;
     animation: bgShift 40s ease infinite;
     font-family: 'Dancing Script', cursive;
@@ -13,43 +29,27 @@ body {
     height: 100vh;
     flex-direction: column;
     position: relative;
-    /* Good for pseudo-element positioning */
 }
 
-/* ✨ Subtle Vignette for Depth ✨ */
 body::before {
     content: "";
     position: fixed;
-    /* Covers the entire viewport */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    box-shadow: inset 0 0 80px rgba(220, 190, 230, 0.2),
-        /* Soft lavender/pink inner shadow */
-        inset 0 0 120px rgba(200, 170, 210, 0.15);
+    box-shadow: inset 0 0 80px var(--vignette-1), inset 0 0 120px var(--vignette-2);
     pointer-events: none;
-    /* Allows clicks to pass through */
     z-index: 0;
-    /* Places it behind content but above the body's direct background */
 }
 
-/* 🌈 Background Gradient Animation */
 @keyframes bgShift {
     0% {
         background-position: 0% 50%;
     }
 
-    25% {
-        background-position: 50% 50%;
-    }
-
     50% {
         background-position: 100% 50%;
-    }
-
-    75% {
-        background-position: 50% 50%;
     }
 
     100% {
@@ -57,6 +57,7 @@ body::before {
     }
 }
 
+/* 🖱️ Initial Tap Overlay 🖱️ */
 #tapOverlay {
     position: fixed;
     inset: 0;
@@ -67,12 +68,11 @@ body::before {
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    color: #d63384;
+    color: var(--text-pink);
     transition: opacity 0.5s ease;
     cursor: pointer;
 }
 
-/* ✨ Pulsing "Tap to Begin" Text ✨ */
 #tapOverlay p {
     animation: pulseTapText 2.5s infinite ease-in-out;
 }
@@ -85,31 +85,25 @@ body::before {
 
     50% {
         transform: scale(1.03);
-        /* Slightly larger */
         opacity: 0.8;
-        /* Slightly faded */
     }
 }
 
-/* JS will add fade-out to hide it */
 #tapOverlay.fade-out {
     opacity: 0;
     pointer-events: none;
 }
 
-/* ✨ Text & Message */
+/* ✨ Main Message Text ✨ */
 #message {
     margin-top: 20px;
     font-size: 2.5rem;
-    color: #d63384;
+    color: var(--text-pink);
     opacity: 0;
     transform: scale(0.8);
     transition: opacity 0.6s ease, transform 0.6s ease;
     z-index: 12;
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.9),
-        0 0 16px #ff77e9,
-        0 0 24px #ffd0f0,
-        0 0 32px #ff9de2;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 16px var(--glow-pink-1), 0 0 24px var(--glow-pink-2), 0 0 32px var(--glow-pink-3);
     animation: rainbowGlow 4s linear infinite;
 }
 
@@ -140,29 +134,7 @@ body::before {
     }
 }
 
-/* 🖼️ Character Image */
-@keyframes floatCharacter {
-    0%, 100% {
-        transform: translateY(0px) translateX(0%);
-    }
-
-    50% {
-        transform: translateY(-10px) translateX(0%);
-    }
-}
-
-@keyframes slideInCharacter {
-    from {
-        transform: translateX(-100%) translateY(0px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateX(0%) translateY(0px);
-        opacity: 1;
-    }
-}
-
+/* 🖼️ Character Image 🖼️ */
 #character {
     position: relative;
     max-height: 80vh;
@@ -171,45 +143,47 @@ body::before {
     height: auto;
     z-index: 3;
     border-radius: 2rem;
-    box-shadow:
-        0 8px 16px rgba(0, 0, 0, 0.15),
-        0 0 20px rgba(255, 192, 203, 0.3),
-        0 0 40px rgba(255, 182, 193, 0.25),
-        0 0 60px rgba(255, 240, 245, 0.3);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15), 0 0 20px var(--shadow-pink-1), 0 0 40px var(--shadow-pink-2), 0 0 60px var(--shadow-lavender);
     opacity: 0;
     transform: translateX(-100%) translateY(0px);
     transition: box-shadow 0.4s ease-in-out;
-    /* For hover effect */
 }
 
 #character.enter {
-    animation: slideInCharacter 1s ease-out forwards,
-        floatCharacter 6s ease-in-out 1s infinite;
+    animation: slideInCharacter 1s ease-out forwards, floatCharacter 6s ease-in-out 1s infinite;
 }
 
-/* ✨ Character Hover Effect ✨ */
 @media (hover: hover) and (pointer: fine) {
-
-    /* Apply only on devices that support true hover */
     #character:hover {
-        box-shadow:
-            0 10px 22px rgba(0, 0, 0, 0.2),
-            /* Slightly deeper base shadow */
-            0 0 30px rgba(255, 192, 203, 0.6),
-            /* Enhanced pink glow */
-            0 0 55px rgba(255, 182, 193, 0.45),
-            /* Wider pink glow */
-            0 0 80px rgba(255, 240, 245, 0.4);
-        /* Wider lavender glow */
-        /* transform: scale(1.02) translateY(0px) translateX(0%); /* Optional: slight scale, ensure it doesn't fight animations */
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2), 0 0 30px rgba(255, 192, 203, 0.6), 0 0 55px rgba(255, 182, 193, 0.45), 0 0 80px rgba(255, 240, 245, 0.4);
     }
 }
 
+@keyframes floatCharacter {
+    0%, 100% {
+        transform: translateY(0px);
+    }
 
-/* 💖 Animated Hearts */
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes slideInCharacter {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* 💖 Animated Hearts 💖 */
 .heart-container {
     position: absolute;
-    /* bottom and left set by JS */
     animation: floatUp 3s ease-out forwards;
     z-index: 11;
     will-change: transform, opacity;
@@ -258,7 +232,7 @@ body::before {
     }
 }
 
-/* ☁️ Parallax Clouds */
+/* ☁️ Parallax Clouds ☁️ */
 #cloudLayer {
     position: absolute;
     top: 0;
@@ -266,7 +240,6 @@ body::before {
     width: 100vw;
     height: 100vh;
     z-index: 1;
-    /* Will be behind body::before vignette if vignette z-index is higher */
     pointer-events: none;
     overflow: hidden;
     transform: translate3d(0, 0, 0);
@@ -288,28 +261,23 @@ body::before {
     box-shadow: 0 0 40px rgba(255, 248, 255, 0.75);
 }
 
-.cloud.small.fluffy {
-    animation:
-        driftSmall 60s linear infinite,
-        floatCloud 6s ease-in-out infinite,
-        colorShift 10s linear infinite,
-        fluffyOpacityPulse 4s ease-in-out infinite;
+/* Corrected Cloud Animations */
+.cloud.small {
+    width: 100px;
+    height: 60px;
+    animation: driftSmall 60s linear infinite, floatCloud 6s ease-in-out infinite, colorShift 10s linear infinite, fluffyOpacityPulse 4s ease-in-out infinite;
 }
 
-.cloud.medium.fluffy {
-    animation:
-        driftMedium 90s linear infinite,
-        floatCloud 7s ease-in-out infinite,
-        colorShift 10s linear infinite,
-        fluffyOpacityPulse 4s ease-in-out infinite;
+.cloud.medium {
+    width: 160px;
+    height: 90px;
+    animation: driftMedium 90s linear infinite, floatCloud 7s ease-in-out infinite, colorShift 10s linear infinite, fluffyOpacityPulse 4s ease-in-out infinite;
 }
 
-.cloud.large.fluffy {
-    animation:
-        driftLarge 120s linear infinite,
-        floatCloud 8s ease-in-out infinite,
-        colorShift 10s linear infinite,
-        fluffyOpacityPulse 4s ease-in-out infinite;
+.cloud.large {
+    width: 220px;
+    height: 120px;
+    animation: driftLarge 120s linear infinite, floatCloud 8s ease-in-out infinite, colorShift 10s linear infinite, fluffyOpacityPulse 4s ease-in-out infinite;
 }
 
 .cloud::before,
@@ -321,17 +289,46 @@ body::before {
     box-shadow: 0 0 40px rgba(255, 240, 255, 0.6);
 }
 
-/* ☁️ Cloud Animations */
-@keyframes floatCloud {
+.cloud.small::before {
+    width: 70px;
+    height: 70px;
+    top: -15px;
+    left: 30px;
+}
 
-    /* This keyframe is used by .cloud.small/medium/large directly */
-    0%, 100% {
-        transform: translateY(0px);
-    }
+.cloud.small::after {
+    width: 50px;
+    height: 50px;
+    top: -5px;
+    left: 70px;
+}
 
-    50% {
-        transform: translateY(-10px);
-    }
+.cloud.medium::before {
+    width: 100px;
+    height: 100px;
+    top: -20px;
+    left: 40px;
+}
+
+.cloud.medium::after {
+    width: 70px;
+    height: 70px;
+    top: -10px;
+    left: 100px;
+}
+
+.cloud.large::before {
+    width: 130px;
+    height: 130px;
+    top: -30px;
+    left: 50px;
+}
+
+.cloud.large::after {
+    width: 90px;
+    height: 90px;
+    top: -20px;
+    left: 130px;
 }
 
 @keyframes colorShift {
@@ -366,113 +363,38 @@ body::before {
     }
 }
 
-/* Small Cloud */
-.cloud.small {
-    width: 100px;
-    height: 60px;
-    animation:
-        driftSmall 60s linear infinite,
-        floatCloud 6s ease-in-out infinite,
-        /* JS parallax may override transform:translateY for ALL clouds */
-        colorShift 10s linear infinite;
-}
-
-.cloud.small::before {
-    width: 70px;
-    height: 70px;
-    top: -15px;
-    left: 30px;
-}
-
-.cloud.small::after {
-    width: 50px;
-    height: 50px;
-    top: -5px;
-    left: 70px;
-}
-
-/* Medium Cloud */
-.cloud.medium {
-    width: 160px;
-    height: 90px;
-    animation:
-        driftMedium 90s linear infinite,
-        floatCloud 7s ease-in-out infinite,
-        /* JS parallax may override transform:translateY for ALL clouds */
-        colorShift 10s linear infinite;
-}
-
-.cloud.medium::before {
-    width: 100px;
-    height: 100px;
-    top: -20px;
-    left: 40px;
-}
-
-.cloud.medium::after {
-    width: 70px;
-    height: 70px;
-    top: -10px;
-    left: 100px;
-}
-
-/* Large Cloud */
-.cloud.large {
-    width: 220px;
-    height: 120px;
-    animation:
-        driftLarge 120s linear infinite,
-        floatCloud 8s ease-in-out infinite,
-        /* JS parallax may override transform:translateY for ALL clouds */
-        colorShift 10s linear infinite;
-}
-
-.cloud.large::before {
-    width: 130px;
-    height: 130px;
-    top: -30px;
-    left: 50px;
-}
-
-.cloud.large::after {
-    width: 90px;
-    height: 90px;
-    top: -20px;
-    left: 130px;
-}
-
-/* ☁️ Drift Animations */
 @keyframes driftSmall {
-    0% {
+    from {
         left: -150px;
     }
 
-    100% {
+    to {
         left: 110%;
     }
 }
 
 @keyframes driftMedium {
-    0% {
+    from {
         left: -200px;
     }
 
-    100% {
+    to {
         left: 110%;
     }
 }
 
 @keyframes driftLarge {
-    0% {
+    from {
         left: -250px;
     }
 
-    100% {
+    to {
         left: 110%;
     }
 }
 
-/* 🌸 Petals & Sakura Gusts */
+
+/* 🌸 Petals & Effects 🌸 */
 .petal, .wind-petal {
     position: absolute;
     background: pink;
@@ -541,7 +463,7 @@ body::before {
     }
 }
 
-/* 🏮 Floating Lanterns */
+/* 🏮 Floating Lanterns 🏮 */
 .lantern {
     position: absolute;
     width: 40px;
@@ -565,25 +487,16 @@ body::before {
     }
 }
 
-/* 💬 Compliments */
+/* 💬 Compliments 💬 */
 .compliment {
     position: absolute;
     font-size: 1.8rem;
     font-weight: 600;
-    /* User updated this */
     color: #fff;
-    /* User updated this */
-    text-shadow:
-        /* User updated this */
-        0px 0px 1px rgba(100, 20, 60, 0.5),
-        0px 0px 3px rgba(100, 20, 60, 0.4),
-        0 0 8px #d63384,
-        0 0 15px #ff77e9,
-        0 0 25px #ff99cc;
+    text-shadow: 0px 0px 1px rgba(100, 20, 60, 0.5), 0px 0px 3px rgba(100, 20, 60, 0.4), 0 0 8px #d63384, 0 0 15px #ff77e9, 0 0 25px #ff99cc;
     opacity: 0;
     animation: floatCompliment 10s ease-out forwards;
     z-index: 4;
-    /* Ensure this is high enough if vignette is z-index:0 or 1 */
     pointer-events: none;
 }
 
@@ -608,7 +521,7 @@ body::before {
     }
 }
 
-/* ✨ Cursor Sparkles */
+/* ✨ Clicks & Sparkles ✨ */
 .sparkle {
     position: fixed;
     width: 8px;
@@ -619,11 +532,7 @@ body::before {
     opacity: 1;
     animation: sparkleFade 0.6s forwards;
     z-index: 999;
-    box-shadow:
-        0 0 4px #ffd6f3,
-        0 0 6px #ffcce6,
-        0 0 8px #ffb3e6,
-        0 0 10px #ffa6d9;
+    box-shadow: 0 0 4px #ffd6f3, 0 0 6px #ffcce6, 0 0 8px #ffb3e6, 0 0 10px #ffa6d9;
     will-change: transform, opacity, box-shadow;
 }
 
@@ -631,20 +540,16 @@ body::before {
     0% {
         transform: scale(1);
         opacity: 1;
-        box-shadow:
-            0 0 4px #ffd6f3, 0 0 6px #ffcce6, 0 0 8px #ffb3e6, 0 0 10px #ffa6d9;
+        box-shadow: 0 0 4px #ffd6f3, 0 0 6px #ffcce6, 0 0 8px #ffb3e6, 0 0 10px #ffa6d9;
     }
 
     100% {
         transform: scale(1.8);
         opacity: 0;
-        box-shadow:
-            0 0 6px rgba(255, 214, 243, 0.5), 0 0 8px rgba(255, 204, 230, 0.4),
-            0 0 10px rgba(255, 179, 230, 0.3), 0 0 12px rgba(255, 166, 217, 0.2);
+        box-shadow: 0 0 6px rgba(255, 214, 243, 0.5), 0 0 8px rgba(255, 204, 230, 0.4), 0 0 10px rgba(255, 179, 230, 0.3), 0 0 12px rgba(255, 166, 217, 0.2);
     }
 }
 
-/* 🌫️ Magic Dust Trail */
 .dust {
     position: absolute;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 182, 193, 0.3) 60%, transparent 100%);
@@ -675,7 +580,6 @@ body::before {
     }
 }
 
-/* 💧 Click Ripple Effect */
 .ripple {
     position: fixed;
     border-radius: 50%;
@@ -704,25 +608,28 @@ body::before {
     }
 }
 
-/* 📱 Responsive Adjustments */
+/* This is the new bounce animation! */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* 📱 Responsive Adjustments 📱 */
 @media (max-width: 768px) {
     body {
         justify-content: flex-start;
         padding-top: 2rem;
-        overflow-x: hidden;
-        touch-action: manipulation;
     }
 
     #tapOverlay {
         font-size: 1.6rem;
         padding: 1.2rem 1.5rem;
     }
-
-    #tapOverlay p {
-        /* Ensure pulse animation doesn't make text too small/large on mobile */
-        animation-name: pulseTapText;
-    }
-
 
     #message {
         font-size: clamp(1.6rem, 6vw, 2rem);
@@ -736,44 +643,13 @@ body::before {
         margin-bottom: 1rem;
     }
 
-    #character:hover {
-        /* Disable hover on touch devices if it causes issues */
-        box-shadow:
-            /* Revert to base or a non-hover specific style if needed */
-            0 8px 16px rgba(0, 0, 0, 0.15),
-            0 0 20px rgba(255, 192, 203, 0.3),
-            0 0 40px rgba(255, 182, 193, 0.25),
-            0 0 60px rgba(255, 240, 245, 0.3);
-    }
-
-
     .compliment {
         bottom: 10vh;
         font-size: 1.2rem;
-        padding: 0 1rem;
         text-align: center;
-    }
-
-    .sparkle {
-        width: 10px;
-        height: 10px;
-    }
-
-    .cloud, .petal, .lantern, .wind-petal, .heart-container {
-        animation-timing-function: ease-in-out;
-    }
-
-    #cloudLayer,
-    #petalLayer,
-    #heartLayer,
-    #dustLayer,
-    #sparkleLayer {
-        overflow: hidden;
-        overscroll-behavior: contain;
     }
 }
 
-/* 📱 Small Screens (like iPhone SE or older Androids) */
 @media (max-width: 480px) {
     body {
         padding-top: 1rem;
@@ -798,12 +674,6 @@ body::before {
     .compliment {
         font-size: 1rem;
         bottom: 8vh;
-        padding: 0 0.5rem;
-    }
-
-    .sparkle {
-        width: 8px;
-        height: 8px;
     }
 
     .heart {
@@ -816,8 +686,7 @@ body::before {
         height: 40px;
     }
 
-    .petal,
-    .wind-petal {
+    .petal, .wind-petal {
         transform: scale(0.8) rotate(45deg);
     }
 }
