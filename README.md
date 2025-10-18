@@ -2,7 +2,7 @@
 
 A beautiful and interactive digital card created to celebrate Mother's Day. This project uses pure HTML, CSS, and JavaScript to create a magical and heartwarming experience with various animations and effects.
 
-## ✨ Features
+## Features
 
 - **Interactive Start:** A "Tap to Begin" overlay to engage the user and ensure a seamless audio/visual experience.
 - **Background Music:** Gentle background music that starts upon user interaction.
@@ -16,7 +16,7 @@ A beautiful and interactive digital card created to celebrate Mother's Day. This
   - A ripple effect on every click.
 - **Responsive Design:** The layout and number of effects are adjusted for a great experience on both desktop and mobile devices.
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - **HTML5:** For the structure and content of the web page.
 - **CSS3:** For all the styling, animations, and responsive design. This includes:
